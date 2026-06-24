@@ -153,6 +153,56 @@
       text-decoration: none;
     }
 
+    .doc-icon {
+      display: inline-block;
+      width: 0.7em;
+      height: 0.8em;
+      vertical-align: -0.05em;
+      margin-left: 3px;
+      mix-blend-mode: multiply;
+      filter: brightness(0) saturate(100%) invert(18%) sepia(96%) saturate(2487%) hue-rotate(344deg) brightness(85%) contrast(107%);
+    }
+
+    .email-icon {
+      display: inline-block;
+      width: 0.8em;
+      height: 0.7em;
+      vertical-align: -0.05em;
+      margin-left: 3px;
+      mix-blend-mode: multiply;
+      filter: brightness(0) saturate(100%) invert(18%) sepia(96%) saturate(2487%) hue-rotate(344deg) brightness(85%) contrast(107%);
+    }
+
+    /* Region highlight */
+    .key-region {
+      position: relative;
+      display: inline;
+      cursor: default;
+      border-radius: 4px;
+      padding: 1px 2px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    body.fc-on .key-region {
+      background-color: #222222;
+      color: #fff;
+    }
+
+    .key-region-link {
+      color: inherit;
+      text-decoration: none;
+      pointer-events: none;
+    }
+
+    body.fc-on .key-region-link {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    body.fc-on .key-region-link:hover {
+      text-decoration: none;
+    }
+
     /* Popup bubble */
     .bubble {
       display: none;
@@ -181,7 +231,8 @@
       filter: drop-shadow(0 2px 1px rgba(0,0,0,0.08));
     }
 
-    body.fc-on .key-player:hover .bubble {
+    body.fc-on .key-player:hover .bubble,
+    body.fc-on .key-region:hover .bubble {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -220,7 +271,8 @@
     }
 
     /* Keep bubble pointer events on when visible so links work */
-    body.fc-on .key-player:hover .bubble {
+    body.fc-on .key-player:hover .bubble,
+    body.fc-on .key-region:hover .bubble {
       pointer-events: auto;
     }
 
@@ -279,9 +331,10 @@
           </span>
         </span>
       </span>
-      were never definitively proven, the European Union cited his ownership of the estate and winery when it imposed sanctions on him in 2014, saying he had backed "actions and policies that undermine the territorial integrity of Ukraine" and <a href="#">benefitted from the annexation</a>.</p>
+      were never definitively proven, the European Union cited his ownership of the estate and winery when it imposed sanctions on him in 2014, saying he had backed "actions and policies that undermine the territorial integrity of <span class="key-region"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="key-region-link" target="_blank" rel="noopener">Ukraine</a><span class="bubble"><img src="ukraine.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="bubble-name" target="_blank" rel="noopener">Ukraine</a><span class="bubble-role">Country in Europe</span></span></span></span>" and <a href="#">benefitted from the annexation</a>.</p>
 
-    <p>Both the winery and the villa, it turns out, were kept in Whyte's hands for years. One of Whyte's offshore companies, Vargas Properties Ltd., controlled the Russian company that owns both the house and the winery.</p>
+    <p>Both the winery and the villa, it turns out, were kept in Whyte's hands for years. One of Whyte's offshore companies, Vargas Properties Ltd., controlled the Russian company that <a href="#" class="doc-link">owns both the house and the winery<img src="document.png" alt="" class="doc-icon"></a>.</p>
+    <p><b>If you would like to support OCCRP, please <a href="https://occrp.fundjournalism.org/donate?campaign=701PP00000uHPEiYAO&_gl=1*d99bgm*_gcl_au*NjM4ODIyMjE0LjE3Nzc5NzM2OTM.*_ga*MTE4OTY2ODIwOS4xNjUwNTM0NTIy*_ga_NHCZV5EYYY*czE3ODIyOTkyOTEkbzgxJGcxJHQxNzgyMjk5NTAyJGo1NyRsMCRoMA..">make your charitable donation online</a> or contact Dani Piland at <a href="mailto:dani.piland@occrp.org">dani.piland@occrp.org<img src="email.png" alt="" class="email-icon"></a>.</b></p>
   </article>
 
   <script>
