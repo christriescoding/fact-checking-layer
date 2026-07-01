@@ -123,36 +123,123 @@
       margin-bottom: 0;
     }
 
-    /* Key player highlight */
-    .key-player {
+        /* Tooltip */
+    .tooltip-trigger {
+      cursor: default;
+      display: inline;
+    }
+    .tooltip-text {
+      background: transparent;
+      border-radius: 4px;
+      color: inherit;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .tooltip-arrow {
+      display: none;
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;
+      margin-left: 4px;
+      position: relative;
+      top: -1px;
+    }
+    .tooltip-arrow img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    body.fc-on .tooltip-trigger {
+      cursor: pointer;
+    }
+    body.fc-on .tooltip-text {
+      background: #b01d21;
+      color: #ffffff;
+      padding: 1px 5px;
+    }
+    body.fc-on .tooltip-arrow {
+      display: inline-block;
+    }
+    .tooltip-box {
+      display: none;
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 14px 0 4px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-mid);
+      box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    }
+    .tooltip-box.open { display: block; }
+    .tooltip-box-link {
+      color: var(--red);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color .15s, text-decoration-color .15s;
+      text-decoration-color: currentColor;
+    }
+    .tooltip-box-link:hover {
+      color: var(--text-mid);
+      text-decoration-color: transparent;
+    }
+
+    /* Key Player and Region highlight */
+    .key-highlight {
       position: relative;
       display: inline;
       cursor: default;
       border-radius: 4px;
-      padding: 1px 2px;
       transition: background-color 0.2s, color 0.2s;
     }
 
-    body.fc-on .key-player {
+    body.fc-on .key-highlight {
       background-color: #b01d21;
       color: #fff;
+      padding: 1px 2px;
     }
 
-    .key-player-link {
+    .key-highlight-link {
       color: inherit;
       text-decoration: none;
       pointer-events: none;
     }
 
-    body.fc-on .key-player-link {
+    body.fc-on .key-highlight-link {
       cursor: pointer;
       pointer-events: auto;
     }
 
-    body.fc-on .key-player-link:hover {
+    body.fc-on .key-highlight-link:hover {
       text-decoration: none;
     }
 
+    /* Document highlight — no background, just icon + hover bubble */
+    .key-doc {
+      position: relative;
+      display: inline;
+      cursor: default;
+    }
+
+    .key-doc-icon {
+      display: none;
+    }
+
+    body.fc-on .key-doc {
+      cursor: pointer;
+    }
+
+    body.fc-on .key-doc-text {
+      background-color: #b01d21;
+      color: #fff;
+      border-radius: 4px;
+      padding: 1px 2px;
+    }
+
+    body.fc-on .key-doc-icon {
+      display: inline;
+    }
+
+    /* Iconography */
     .doc-icon {
       display: inline-block;
       width: 0.7em;
@@ -171,36 +258,6 @@
       margin-left: 3px;
       mix-blend-mode: multiply;
       filter: brightness(0) saturate(100%) invert(18%) sepia(96%) saturate(2487%) hue-rotate(344deg) brightness(85%) contrast(107%);
-    }
-
-    /* Region highlight */
-    .key-region {
-      position: relative;
-      display: inline;
-      cursor: default;
-      border-radius: 4px;
-      padding: 1px 2px;
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    body.fc-on .key-region {
-      background-color: #222222;
-      color: #fff;
-    }
-
-    .key-region-link {
-      color: inherit;
-      text-decoration: none;
-      pointer-events: none;
-    }
-
-    body.fc-on .key-region-link {
-      cursor: pointer;
-      pointer-events: auto;
-    }
-
-    body.fc-on .key-region-link:hover {
-      text-decoration: none;
     }
 
     /* Popup bubble */
@@ -231,11 +288,30 @@
       filter: drop-shadow(0 2px 1px rgba(0,0,0,0.08));
     }
 
-    body.fc-on .key-player:hover .bubble,
-    body.fc-on .key-region:hover .bubble {
+    body.fc-on .key-highlight:hover .bubble,
+    body.fc-on .key-doc:hover .bubble {
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+
+    .bubble--wide {
+      width: 240px;
+      padding: 12px 14px;
+    }
+
+    .bubble-source {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #1a1a1a;
+    }
+
+    .bubble-source-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.4;
+      margin-top: 4px;
     }
 
     .bubble-portrait {
@@ -271,14 +347,74 @@
     }
 
     /* Keep bubble pointer events on when visible so links work */
-    body.fc-on .key-player:hover .bubble,
-    body.fc-on .key-region:hover .bubble {
+    body.fc-on .key-highlight:hover .bubble,
+    body.fc-on .key-doc:hover .bubble {
       pointer-events: auto;
     }
 
     /* Prevent bubble from clipping left edge on early paragraphs */
-    .key-player .bubble {
+    .key-highlight .bubble,
+    .key-doc .bubble {
       white-space: normal;
+    }
+
+    /* Fact-check box */
+    .fc-box {
+      border: 1px solid #d8d7d0;
+      border-radius: 4px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .fc-box-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+      background: #fff;
+    }
+
+    .fc-box-arrow {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      transition: transform 0.25s ease;
+    }
+
+    .fc-box.open .fc-box-arrow {
+      transform: rotate(180deg);
+    }
+
+    .fc-box-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+
+    .fc-box-body {
+      display: none;
+      padding: 0 16px 16px;
+      background: #fff;
+      border-top: 1px solid #d8d7d0;
+      font-size: 17px;
+      line-height: 1.75;
+      color: #1a1a1a;
+    }
+
+    .fc-box.open .fc-box-body {
+      display: block;
+    }
+
+    .fc-box-body p {
+      margin-top: 16px;
+      margin-bottom: 0;
+      font-size: 17px;
+      line-height: 1.75;
+      color: #1a1a1a;
     }
   </style>
 </head>
@@ -296,7 +432,7 @@
 
   <article class="article">
     <p>After the Russian annexation of Crimea in 2014, a new breed of elite Russians rushed in. Multiple media outlets at the time reported rumors that
-      <span class="key-player" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-player-link" target="_blank" rel="noopener">Andrei Kostin</a>
+      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Andrei Kostin</a>
         <span class="bubble">
           <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
@@ -310,7 +446,7 @@
     <p>"Winery executives won't reveal who it belongs to, although the Russian media have speculated that it's the president of one of Russia's most powerful banks," <a href="#">wrote Meinenger's Wine Business International in 2015</a>.</p>
 
     <p>A grape vine at Alma had been personally planted by
-      <span class="key-player" tabindex="0"><a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="key-player-link" target="_blank" rel="noopener">Vladimir Putin</a>
+      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Vladimir Putin</a>
         <span class="bubble">
           <img src="putin-portrait.jpg" alt="Vladimir Putin" class="bubble-portrait">
           <span class="bubble-info">
@@ -321,8 +457,20 @@
       </span>,
       the article reported, before noting that the winery's Petite Arvine white was a "pleasant surprise."</p>
 
+    <div class="fc-box" id="fc-box-1">
+      <div class="fc-box-header" onclick="toggleFcBox('fc-box-1')">
+        <svg class="fc-box-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 9L12 15L18 9" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="fc-box-title">This is an example of a fact-checking box</span>
+      </div>
+      <div class="fc-box-body">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam <b>volutpat vel neque vel iaculis</b>. Quisque maximus, quam vel ullamcorper pretium, felis turpis porta ipsum, <a href="#">id ornare lectus tortor nec felis</a>. Quisque semper nunc eget leo gravida vestibulum. Phasellus ligula dolor, molestie a odio nec, fermentum pellentesque enim. Curabitur sed dolor at diam condimentum placerat. Nullam sagittis est ut rhoncus dictum. Vestibulum accumsan sem elit, vitae viverra nibh congue vel. Vivamus odio purus, convallis ut ullamcorper nec, pretium eget mauris. Pellentesque varius, turpis vel tincidunt ultricies, lacus urna tincidunt sem, at gravida ligula augue eu purus. Nam convallis ut purus vel suscipit.</p>
+      </div>
+    </div>
+
     <p>While the links to
-      <span class="key-player" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-player-link" target="_blank" rel="noopener">Kostin</a>
+      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a>
         <span class="bubble">
           <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
@@ -331,9 +479,10 @@
           </span>
         </span>
       </span>
-      were never definitively proven, the European Union cited his ownership of the estate and winery when it imposed sanctions on him in 2014, saying he had backed "actions and policies that undermine the territorial integrity of <span class="key-region"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="key-region-link" target="_blank" rel="noopener">Ukraine</a><span class="bubble"><img src="ukraine.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="bubble-name" target="_blank" rel="noopener">Ukraine</a><span class="bubble-role">Country in Europe</span></span></span></span>" and <a href="#">benefitted from the annexation</a>.</p>
+      were never definitively proven, the European Union cited his ownership of the estate and winery when it imposed sanctions on him in 2014, saying he had backed "actions and policies that undermine the territorial integrity of <span class="key-highlight"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="key-highlight-link" target="_blank" rel="noopener">Ukraine</a><span class="bubble"><img src="ukraine.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="bubble-name" target="_blank" rel="noopener">Ukraine</a><span class="bubble-role">Country in Europe</span></span></span></span>" and <a href="#">benefitted from the annexation</a>.</p>
 
-    <p>Both the winery and the villa, it turns out, were kept in Whyte's hands for years. One of Whyte's offshore companies, Vargas Properties Ltd., controlled the Russian company that <a href="#" class="doc-link">owns both the house and the winery<img src="document.png" alt="" class="doc-icon"></a>.</p>
+    <p>Both the winery and the villa, it turns out, were kept in Whyte's hands for years. One of Whyte's offshore companies, <span class="tooltip-trigger"><span class="tooltip-text">Vargas Properties Ltd.</span><span class="tooltip-arrow"><img src="arrow-down.png" alt="" /></span></span>
+        <span class="tooltip-box">Source: <a href="https://offshoreleaks.icij.org/nodes/240029544">ICIJ OffShore Database</a>.</span>, controlled the Russian company that <span class="key-doc"><span class="key-doc-text">owns both the house and the winery</span><span class="key-doc-icon"><img src="document.png" alt="" class="doc-icon"></span><span class="bubble bubble--wide"><span class="bubble-info"><span class="bubble-source">Source: Name of Organization that provided this document.</span><span class="bubble-source-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></span></span></span>.</p>
     <p><b>If you would like to support OCCRP, please <a href="https://occrp.fundjournalism.org/donate?campaign=701PP00000uHPEiYAO&_gl=1*d99bgm*_gcl_au*NjM4ODIyMjE0LjE3Nzc5NzM2OTM.*_ga*MTE4OTY2ODIwOS4xNjUwNTM0NTIy*_ga_NHCZV5EYYY*czE3ODIyOTkyOTEkbzgxJGcxJHQxNzgyMjk5NTAyJGo1NyRsMCRoMA..">make your charitable donation online</a> or contact Dani Piland at <a href="mailto:dani.piland@occrp.org">dani.piland@occrp.org<img src="email.png" alt="" class="email-icon"></a>.</b></p>
   </article>
 
@@ -346,10 +495,44 @@
         document.body.classList.add('fc-on');
         stateText.textContent = 'ON';
         stateText.classList.add('on');
+        document.querySelectorAll('.fc-box').forEach(box => box.classList.add('open'));
       } else {
         document.body.classList.remove('fc-on');
         stateText.textContent = 'OFF';
         stateText.classList.remove('on');
+        document.querySelectorAll('.fc-box').forEach(box => box.classList.remove('open'));
+      }
+    });
+
+    function toggleFcBox(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+        // ── Tooltips (handles any number on the page) ─────────────────
+    document.querySelectorAll('.tooltip-trigger').forEach(function (trigger) {
+      const box      = trigger.nextElementSibling;
+      const arrowImg = trigger.querySelector('.tooltip-arrow img');
+      let open = false;
+
+      trigger.addEventListener('click', function () {
+        if (!document.body.classList.contains('fc-on')) return;
+        open = !open;
+        trigger.classList.toggle('open', open);
+        box.classList.toggle('open', open);
+        arrowImg.src = open ? 'arrow-up.png' : 'arrow-down.png';
+      });
+    });
+
+    // Close all tooltips when fact-check is toggled off
+    toggle.addEventListener('change', function () {
+      if (!toggle.checked) {
+        document.querySelectorAll('.tooltip-trigger').forEach(function (trigger) {
+          const box      = trigger.nextElementSibling;
+          const arrowImg = trigger.querySelector('.tooltip-arrow img');
+          trigger.classList.remove('open');
+          box.classList.remove('open');
+          arrowImg.src = 'arrow-down.png';
+        });
       }
     });
   </script>
