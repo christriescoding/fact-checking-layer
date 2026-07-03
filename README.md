@@ -1,4 +1,4 @@
-# Key Players-Popup
-A Key Players pop-up for a 'fact-checking' iceberg toggle.
+# Fact-Checking Layer Prototype
+A prototype for a 'fact-checking' iceberg layer that offers more information to the reader.
 
-Can be seen here: https://christriescoding.github.io/key-players-popup/
+Can be seen here: https://christriescoding.github.io/fact-checking-layer/
