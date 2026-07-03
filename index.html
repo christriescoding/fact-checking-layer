@@ -152,8 +152,8 @@
       cursor: pointer;
     }
     body.fc-on .tooltip-text {
-      background: #b01d21;
-      color: #ffffff;
+      background: #e4e2d8;
+      color: #000;
       padding: 1px 5px;
     }
     body.fc-on .tooltip-arrow {
@@ -193,8 +193,8 @@
     }
 
     body.fc-on .key-highlight {
-      background-color: #b01d21;
-      color: #fff;
+      background-color: #e4e2d8;
+      color: #000;
       padding: 1px 2px;
     }
 
@@ -205,7 +205,7 @@
     }
 
     body.fc-on .key-highlight-link {
-      cursor: pointer;
+      cursor: help;
       pointer-events: auto;
     }
 
@@ -229,8 +229,8 @@
     }
 
     body.fc-on .key-doc-text {
-      background-color: #b01d21;
-      color: #fff;
+      background-color: #e4e2d8;
+      color: #000;
       border-radius: 4px;
       padding: 1px 2px;
     }
@@ -247,7 +247,7 @@
       vertical-align: -0.05em;
       margin-left: 3px;
       mix-blend-mode: multiply;
-      filter: brightness(0) saturate(100%) invert(18%) sepia(96%) saturate(2487%) hue-rotate(344deg) brightness(85%) contrast(107%);
+      filter: brightness(0);
     }
 
     .email-icon {
@@ -360,10 +360,15 @@
 
     /* Fact-check box */
     .fc-box {
+      display: none;
       border: 1px solid #d8d7d0;
       border-radius: 4px;
       margin: 20px 0;
       overflow: hidden;
+    }
+
+    body.fc-on .fc-box {
+      display: block;
     }
 
     .fc-box-header {
@@ -416,6 +421,14 @@
       line-height: 1.75;
       color: #1a1a1a;
     }
+
+    /* Help cursor on interactive elements */
+    body.fc-on .key-highlight:hover,
+    body.fc-on .key-doc:hover,
+    body.fc-on .tooltip-trigger:hover,
+    body.fc-on .fc-box-header:hover {
+      cursor: help;
+    }
   </style>
 </head>
 <body>
@@ -432,8 +445,7 @@
 
   <article class="article">
     <p>After the Russian annexation of Crimea in 2014, a new breed of elite Russians rushed in. Multiple media outlets at the time reported rumors that
-      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Andrei Kostin</a>
-        <span class="bubble">
+      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Andrei Kostin</a>        <span class="bubble">
           <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
             <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a>
@@ -446,8 +458,7 @@
     <p>"Winery executives won't reveal who it belongs to, although the Russian media have speculated that it's the president of one of Russia's most powerful banks," <a href="#">wrote Meinenger's Wine Business International in 2015</a>.</p>
 
     <p>A grape vine at Alma had been personally planted by
-      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Vladimir Putin</a>
-        <span class="bubble">
+      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Vladimir Putin</a>        <span class="bubble">
           <img src="putin-portrait.jpg" alt="Vladimir Putin" class="bubble-portrait">
           <span class="bubble-info">
             <a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="bubble-name" target="_blank" rel="noopener">Vladimir Putin</a>
@@ -457,21 +468,20 @@
       </span>,
       the article reported, before noting that the winery's Petite Arvine white was a "pleasant surprise."</p>
 
-    <div class="fc-box" id="fc-box-1">
+    <div class="fc-box open" id="fc-box-1">
       <div class="fc-box-header" onclick="toggleFcBox('fc-box-1')">
         <svg class="fc-box-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 9L12 15L18 9" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <span class="fc-box-title">This is an example of a fact-checking box</span>
-      </div>
+              </div>
       <div class="fc-box-body">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam <b>volutpat vel neque vel iaculis</b>. Quisque maximus, quam vel ullamcorper pretium, felis turpis porta ipsum, <a href="#">id ornare lectus tortor nec felis</a>. Quisque semper nunc eget leo gravida vestibulum. Phasellus ligula dolor, molestie a odio nec, fermentum pellentesque enim. Curabitur sed dolor at diam condimentum placerat. Nullam sagittis est ut rhoncus dictum. Vestibulum accumsan sem elit, vitae viverra nibh congue vel. Vivamus odio purus, convallis ut ullamcorper nec, pretium eget mauris. Pellentesque varius, turpis vel tincidunt ultricies, lacus urna tincidunt sem, at gravida ligula augue eu purus. Nam convallis ut purus vel suscipit.</p>
       </div>
     </div>
 
     <p>While the links to
-      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a>
-        <span class="bubble">
+      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a>        <span class="bubble">
           <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
             <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a>
