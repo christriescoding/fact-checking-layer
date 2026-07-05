@@ -1,107 +1,586 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Key Players Pop-Up Prototype</title>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protoype Article for Testing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Code+Pro:wght@400;600&family=Lora:ital,wght@0,400;0,700;1,400&family=Inter+Tight:wght@400;700;900&family=Archivo+Narrow:wght@300;400;700&display=swap" />
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
+    /* Reset & Base*/
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      color: #1a1a1a;
+      background: #F4F3EC;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: auto; }
+
+    /* Colours */
+    :root {
+      --red:        #D92429;
+      --red-dark:   #b01d21;
+      --amber-bg:   #F4F3EC;
+      --amber-border: #F4F3EC;
+      --text:       #1a1a1a;
+      --text-mid:   #444;
+      --text-light: #666;
+      --rule:       #ddd;
+      --nav-bg:     #fff;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      background: var(--red);
+      height: 3px;
+      width: 100%;
+    }
+
+    /* Site Header / Nav */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #F4F3EC;
+      border-bottom: 1px solid var(--rule);
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 64px;
+      position: relative;
+    }
+    .nav-menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: none;
+      border: none;
       padding: 0;
     }
-
-    body {
-      background-color: #F4F3EC;
-      color: #1a1a1a;
-      font-family: 'Source Sans 3', sans-serif;
-      min-height: 100vh;
+    .nav-menu-btn svg { width: 20px; height: 20px; }
+    .nav-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 48px 24px;
-    }
-
-    a {
-      color: #D92429;
       text-decoration: none;
     }
-
-    a:hover {
-      text-decoration: underline;
+    .nav-logo img {
+      height: 60px;
+      width: auto;
+      display: block;
     }
 
-    /* Toggle control */
+    /* Static Menu */
+    .mega-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      z-index: 200;
+    }
+    .mega-menu.open { display: flex; }
+    .mega-menu-panel {
+      background: #fff;
+      width: 320px;
+      height: 100%;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mega-menu-close {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .mega-menu-panel a {
+      display: block;
+      padding: 10px 0;
+      font-size: 15px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--rule);
+      color: var(--text);
+      transition: color .15s;
+    }
+    .mega-menu-panel a:hover { color: var(--red); }
+
+
+    /* Article Header */
+    .article-header {
+      max-width: 820px;
+      margin: 40px auto 0;
+      padding: 0 24px;
+    }
+    .article-headline {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #111;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .article-deck {
+      font-family: 'Archivo Narrow', sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text-mid);
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    /* Byline */
+    .byline-wrap {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .byline-left { display: flex; align-items: center; gap: 12px; }
+    .reported-by-label {
+      font-family: 'Archivo Narrow', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #D92429;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .reported-by-label::before {
+      content: '';
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #D92429;
+      flex-shrink: 0;
+    }
+    .author-avatars {
+      display: flex;
+      margin-right: 4px;
+    }
+    .author-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: #e0e0e0;
+      margin-right: -10px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .author-avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg,#c0c0c0,#888);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .author-names {
+      margin-left: 16px;
+    }
+    .author-names a {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--red);
+      transition: opacity .15s;
+    }
+    .author-names a:hover { opacity: .7; }
+    .author-names .collab-note {
+      font-size: 11px;
+      color: var(--text-light);
+      display: block;
+      margin-top: 2px;
+    }
+    .byline-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .article-date {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+    .article-read-time {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .article-read-time svg { flex-shrink: 0; }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .article-meta-sep {
+      color: var(--text-mid);
+      font-size: 12px;
+      font-weight: 400;
+      opacity: .5;
+    }
+    .share-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--text-mid);
+      background: none;
+      border: none;
+      border-radius: 3px;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .share-btn:hover { color: var(--red); }
+    .share-btn svg { width: 13px; height: 13px; stroke: var(--red); }
+    .share-btn:hover svg { stroke: var(--red); }
+
+    /* Hero Image */
+    .hero-wrap {
+      max-width: 1000px;
+      margin: 0 auto 0;
+      padding: 0 24px 0;
+    }
+    .hero-img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-caption {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 10px;
+      color: var(--text-light);
+      padding: 8px 0;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+    .hero-caption strong { font-weight: 600; color: var(--text-mid); }
+
+    /* Main Content + Sidebar */
+    .content-row {
+      max-width: 1100px;
+      margin: 32px auto 60px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* Key Findings */
+    .key-findings {
+      background: #F4F3EC;
+      border-radius: 4px;
+      padding: 18px 26px;
+      margin-bottom: 32px;
+    }
+    .key-findings summary {
+      font-family: 'Archivo Narrow', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #D92429;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    .key-findings summary::-webkit-details-marker { display: none; }
+    .key-findings summary::after {
+      content: '+';
+      font-size: 18px;
+      font-weight: 300;
+      color: #D92429;
+      margin-left: auto;
+      line-height: 1;
+      transition: transform .2s;
+    }
+    .key-findings[open] summary::after {
+      content: '−';
+    }
+    .key-findings summary::before {
+      content: '';
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #D92429;
+      flex-shrink: 0;
+    }
+    .key-findings ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0,0,0,.1);
+    }
+    .key-findings ul li {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--text);
+      padding-left: 20px;
+      position: relative;
+    }
+    .key-findings ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #D92429;
+      font-size: 12px;
+      top: 2px;
+    }
+
+    /* Article Body */
+    .article-body {
+      font-family: 'Archivo Narrow', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+    .article-body p { margin-bottom: 22px; }
+    .article-body > p:first-of-type::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 60px;
+      font-weight: 900;
+      line-height: .82;
+      float: left;
+      margin-right: 6px;
+      margin-top: 4px;
+      color: var(--red);
+    }
+    .article-body a {
+      color: var(--red);
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: 3px;
+      transition: text-decoration-color .15s;
+    }
+    .article-body a:hover { text-decoration-color: var(--red); }
+    .article-body strong { font-weight: 700; }
+
+    /* Article Meta Bar (between key findings and body) */
+    .article-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      margin-bottom: 22px;
+      border-top: 1px solid var(--rule);
+      gap: 16px;
+    }
+    .article-meta-bar .article-meta { text-align: left; }
+    .article-meta-bar .share-bar { flex-shrink: 0; }
+
+    /* Inline Image */
+    .article-image-wrap {
+      position: relative;
+      margin: 22px auto;
+      cursor: pointer;
+      max-width: 635px;
+    }
+    .article-image-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 2px;
+    }
+    .article-image-zoom {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,.85);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      backdrop-filter: blur(2px);
+    }
+    .article-image-zoom svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text);
+    }
+    .article-image-wrap:hover .article-image-zoom {
+      background: #fff;
+    }
+    .article-image-credit {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 11.5px;
+      color: var(--text-light);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* Image Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 860px;
+      width: 100%;
+    }
+    .lightbox-inner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 3px;
+    }
+    .lightbox-credit {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 11.5px;
+      color: rgba(255,255,255,.6);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 32px;
+      height: 32px;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      color: var(--text);
+      transition: background .15s;
+    }
+    .lightbox-close:hover { background: #eee; }
+
+     /* Toggle control */
     .toggle-wrapper {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 36px;
-      font-size: 15px;
+      gap: 8px;
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.02em;
-      color: #1a1a1a;
+      letter-spacing: 0.04em;
+      color: var(--text-mid);
+      flex-shrink: 0;
     }
-
     .toggle-label {
       user-select: none;
     }
-
     .toggle {
       position: relative;
-      width: 48px;
-      height: 26px;
+      width: 34px;
+      height: 18px;
       cursor: pointer;
     }
-
     .toggle input {
       opacity: 0;
       width: 0;
       height: 0;
       position: absolute;
     }
-
     .toggle-track {
       position: absolute;
       inset: 0;
       background-color: #c5c4bc;
-      border-radius: 26px;
+      border-radius: 18px;
       transition: background-color 0.25s ease;
     }
-
     .toggle input:checked + .toggle-track {
       background-color: #b01d21;
     }
-
     .toggle-thumb {
       position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
       background-color: #fff;
       border-radius: 50%;
       box-shadow: 0 1px 3px rgba(0,0,0,0.25);
       transition: transform 0.25s ease;
       pointer-events: none;
     }
-
     .toggle input:checked ~ .toggle-thumb {
-      transform: translateX(22px);
+      transform: translateX(16px);
     }
-
     .toggle-state-label {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #888;
-      min-width: 24px;
+      min-width: 20px;
       transition: color 0.2s;
     }
-
     .toggle-state-label.on {
       color: #b01d21;
     }
@@ -111,14 +590,12 @@
       max-width: 620px;
       width: 100%;
     }
-
     .article p {
       font-size: 17px;
       line-height: 1.75;
       margin-bottom: 20px;
       color: #1a1a1a;
     }
-
     .article p:last-child {
       margin-bottom: 0;
     }
@@ -155,6 +632,8 @@
       background: #e4e2d8;
       color: #000;
       padding: 1px 5px;
+      text-decoration: underline dotted #b01d21;
+      text-decoration-thickness: 1.5px;
     }
     body.fc-on .tooltip-arrow {
       display: inline-block;
@@ -191,26 +670,30 @@
       border-radius: 4px;
       transition: background-color 0.2s, color 0.2s;
     }
-
     body.fc-on .key-highlight {
       background-color: #e4e2d8;
       color: #000;
-      padding: 1px 2px;
+      padding: 2px 2px;
+      text-decoration: underline dotted #b01d21;
+      text-decoration-thickness: 1.5px;
     }
-
-    .key-highlight-link {
+    .key-highlight-link,
+    .article-body .key-highlight-link,
+    .article-body .key-highlight-link:hover {
       color: inherit;
       text-decoration: none;
+      text-decoration-color: transparent;
       pointer-events: none;
     }
-
-    body.fc-on .key-highlight-link {
+    body.fc-on .key-highlight-link,
+    body.fc-on .article-body .key-highlight-link {
       cursor: help;
       pointer-events: auto;
     }
-
-    body.fc-on .key-highlight-link:hover {
+    body.fc-on .key-highlight-link:hover,
+    body.fc-on .article-body .key-highlight-link:hover {
       text-decoration: none;
+      color: inherit;
     }
 
     /* Document highlight — no background, just icon + hover bubble */
@@ -219,22 +702,20 @@
       display: inline;
       cursor: default;
     }
-
     .key-doc-icon {
       display: none;
     }
-
     body.fc-on .key-doc {
       cursor: pointer;
     }
-
     body.fc-on .key-doc-text {
       background-color: #e4e2d8;
       color: #000;
       border-radius: 4px;
       padding: 1px 2px;
+      text-decoration: underline dotted #b01d21;
+      text-decoration-thickness: 1.5px;
     }
-
     body.fc-on .key-doc-icon {
       display: inline;
     }
@@ -249,7 +730,6 @@
       mix-blend-mode: multiply;
       filter: brightness(0);
     }
-
     .email-icon {
       display: inline-block;
       width: 0.8em;
@@ -271,7 +751,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.08);
       padding: 8px 8px;
-      width: 180px;
+      width: 200px;
       z-index: 100;
       pointer-events: none;
     }
@@ -287,33 +767,28 @@
       border-top-color: #fff;
       filter: drop-shadow(0 2px 1px rgba(0,0,0,0.08));
     }
-
     body.fc-on .key-highlight:hover .bubble,
     body.fc-on .key-doc:hover .bubble {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-
     .bubble--wide {
       width: 240px;
       padding: 12px 14px;
     }
-
     .bubble-source {
       font-size: 14px;
       font-weight: 600;
       line-height: 1.4;
       color: #1a1a1a;
     }
-
     .bubble-source-desc {
       font-size: 12px;
       color: #666;
       line-height: 1.4;
       margin-top: 4px;
     }
-
     .bubble-portrait {
       width: 46px;
       height: 56px;
@@ -322,24 +797,20 @@
       border-radius: 4px;
       flex-shrink: 0;
     }
-
     .bubble-info {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-
     .bubble-name {
       font-size: 14px;
       font-weight: 600;
       line-height: 1.3;
       color: #D92429;
     }
-
     .bubble-name:hover {
       text-decoration: underline;
     }
-
     .bubble-role {
       font-size: 12px;
       color: #666;
@@ -366,11 +837,9 @@
       margin: 20px 0;
       overflow: hidden;
     }
-
     body.fc-on .fc-box {
       display: block;
     }
-
     .fc-box-header {
       display: flex;
       align-items: center;
@@ -380,18 +849,15 @@
       user-select: none;
       background: #fff;
     }
-
     .fc-box-arrow {
       flex-shrink: 0;
       width: 18px;
       height: 18px;
       transition: transform 0.25s ease;
     }
-
     .fc-box.open .fc-box-arrow {
       transform: rotate(180deg);
     }
-
     .fc-box-title {
       font-size: 13px;
       font-weight: 600;
@@ -399,25 +865,22 @@
       text-transform: uppercase;
       color: #1a1a1a;
     }
-
     .fc-box-body {
       display: none;
       padding: 0 16px 16px;
       background: #fff;
       border-top: 1px solid #d8d7d0;
-      font-size: 17px;
+      font-size: 15px;
       line-height: 1.75;
       color: #1a1a1a;
     }
-
     .fc-box.open .fc-box-body {
       display: block;
     }
-
     .fc-box-body p {
       margin-top: 16px;
       margin-bottom: 0;
-      font-size: 17px;
+      font-size: 15px;
       line-height: 1.75;
       color: #1a1a1a;
     }
@@ -429,74 +892,374 @@
     body.fc-on .fc-box-header:hover {
       cursor: help;
     }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 80px; }
+
+    /* Footer */
+    .site-footer {
+      background: #222222;
+      color: #ccc;
+      padding: 48px 24px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .footer-logo {
+      display: flex;
+      justify-content: center;
+    }
+    .footer-logo img {
+      width: auto;
+      height: 112px;
+      display: block;
+    }
+    .footer-brand {
+      display: flex;
+      justify-content: flex-start;
+      text-align: left;
+    }
+    .footer-brand .footer-tagline {
+      font-family: 'Source Serif 4', serif;
+      font-size: 28px;
+      line-height: 1.4;
+      color: #f4f3ec;
+      max-width: 450px;
+    }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      font-size: 12px;
+      font-weight: 700;
+      color: #f4f3ec;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .content-row { grid-template-columns: 1fr; }
+      .sidebar { position: static; order: 2; }
+      main { order: 1; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-logo, .footer-brand { justify-content: center; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .nav-logo-text .occrp-full { display: none; }
+      .byline-wrap { flex-direction: column; }
+      .byline-right { flex-direction: column; align-items: flex-start; }
+      .article-meta { text-align: left; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="toggle-wrapper">
-    <span class="toggle-label">Switch on fact-checking:</span>
-    <label class="toggle" aria-label="Toggle fact-checking">
-      <input type="checkbox" id="fc-toggle">
-      <span class="toggle-track"></span>
-      <span class="toggle-thumb"></span>
-    </label>
-    <span class="toggle-state-label" id="toggle-state-text">OFF</span>
+  <!-- ── Top accent bar ── -->
+  <div class="top-bar"></div>
+
+  <!-- ── Site header ── -->
+  <header class="site-header">
+    <div class="nav-inner">
+      <button class="nav-menu-btn" onclick="document.getElementById('megaMenu').classList.toggle('open')" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        MENU
+      </button>
+      <a href="#" class="nav-logo" aria-label="OCCRP Home">
+        <img src="logo.png" alt="OCCRP — Organized Crime and Corruption Reporting Project" />
+      </a>
+    </div>
+  </header>
+
+  <!-- ── Mega-menu ── -->
+  <div class="mega-menu" id="megaMenu">
+    <div class="mega-menu-panel">
+      <button class="mega-menu-close" onclick="document.getElementById('megaMenu').classList.remove('open')" aria-label="Close menu">&times;</button>
+      <a href="#">Investigations</a>
+      <a href="#">Data & Tools</a>
+      <a href="#">Topics</a>
+      <a href="#">Regions</a>
+      <a href="#">About OCCRP</a>
+      <a href="#">Our Network</a>
+      <a href="#">Grants & Fellowships</a>
+      <a href="#">Press Freedom</a>
+      <a href="#">Contact</a>
+      <a href="#" style="color:var(--red);border-color:var(--red)">Donate</a>
+    </div>
+    <div style="flex:1" onclick="document.getElementById('megaMenu').classList.remove('open')"></div>
   </div>
 
-  <article class="article">
-    <p>After the Russian annexation of Crimea in 2014, a new breed of elite Russians rushed in. Multiple media outlets at the time reported rumors that
-      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Andrei Kostin</a>        <span class="bubble">
+  <!-- ── Article header ── -->
+  <header class="article-header">
+    <h1 class="article-headline">
+      Sanctioned Russian Banker Andrei Kostin, Head of ‘Putin’s Piggy Bank,’ Uses Canadian Man as Proxy For Vast Holdings
+    </h1>
+    <p class="article-deck">
+      A man named Eric Whyte controls offshores that own luxury properties and investments worth millions. Clues suggest he is acting as a proxy for Andrei Kostin, a sanctioned Russian banker with strong Kremlin ties.
+    </p>
+
+  </header>
+
+  <!-- ── Hero image ── -->
+  <div class="hero-wrap">
+    <img src="hero.png" alt="Illustration of mining trucks, stacks of Uzbek currency, and a globe with red dotted lines tracing international routes" class="hero-img" />
+    <p class="hero-caption">
+      <strong>Banner Credit:</strong> James O'Brien/OCCRP
+    </p>
+  </div>
+
+  <!-- ── Main content + sidebar ── -->
+  <div class="content-row">
+
+    <!-- ── Left: sidebar ── -->
+    <aside class="sidebar">
+
+      <!-- Byline -->
+      <div class="byline-wrap">
+        <div class="reported-by-label">Reported by</div>
+
+        <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+          <div class="author-avatar" style="flex-shrink:0;margin-right:0">
+            <img src="graham-stack.jpg" alt="Graham Stack" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+          </div>
+          <div class="author-names" style="margin-left:0">
+            <a href="#">Graham Stack</a>
+            <span class="collab-note">OCCRP</span>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+          <div class="author-avatar" style="flex-shrink:0;margin-right:0">
+            <img src="ilya-lozovsky.jpg" alt="Ilya Lozovsky" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+          </div>
+          <div class="author-names" style="margin-left:0">
+            <a href="#">Ilya Lazovsky</a>
+            <span class="collab-note">OCCRP</span>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- ── Right: article body ── -->
+    <main>
+
+      <!-- Key Findings -->
+      <details class="key-findings" open>
+        <summary>Key Findings</summary>
+        <ul>
+          <li>Eric Whyte, a Canadian citizen, appears in documents from the Pandora Papers as the beneficial owner of companies set up in the British Virgin Islands that owned luxury properties in Russia and Europe.</li>
+          <li>Some of these firms appear to have been used to hide Andrei Kostin’s ownership of an international portfolio of high-end real estate.</li>
+          <li>The companies are connected to others, mostly registered in Cyprus, that own assets worth an estimated $130 million.</li>
+        </ul>
+      </details>
+
+      <!-- Date / share bar -->
+      <div class="article-meta-bar">
+        <div class="article-meta">
+          <div class="article-date">July 28, 2022</div>
+          <span class="article-meta-sep">|</span>
+          <div class="article-read-time">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            11 min read
+          </div>
+        </div>
+        <div class="toggle-wrapper">
+          <span class="toggle-label">Switch on fact-checking:</span>
+          <label class="toggle" aria-label="Toggle fact-checking">
+            <input type="checkbox" id="fc-toggle">
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
+          <span class="toggle-state-label" id="toggle-state-text">OFF</span>
+        </div>
+        <div class="share-bar">
+          <button class="share-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Text settings
+          </button>
+          <button class="share-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share article
+          </button>
+        </div>
+      </div>
+
+      <!-- Article body -->
+      <div class="article-body">
+    <p>The son of a globe-trotting Canadian communist, Eric Whyte moved to the Soviet Union as a boy in 1966, and was educated at a prestigious school outside Moscow. Those are nearly all of the scant details publicly available about his life –– even “Champagne and Meatballs,” a book-length memoir by Whyte’s late father, Bert, only mentions his birth.</p>
+    <p>But while Whyte maintains a low profile, leaked corporate documents offer a clue about his activities over the past decade or so: He appears to be a frontman for sanctioned Russian banker <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble">
           <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
-            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a>
-            <span class="bubble-role">Russian Banker</span>
-          </span>
-        </span>
-      </span>
-      had snapped up a luxury villa in Foros, along with a winery in the Alma Valley, 70 kilometers to the north.</p>
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span>.</p>
 
-    <p>"Winery executives won't reveal who it belongs to, although the Russian media have speculated that it's the president of one of Russia's most powerful banks," <a href="#">wrote Meinenger's Wine Business International in 2015</a>.</p>
-
-    <p>A grape vine at Alma had been personally planted by
-      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Vladimir Putin</a>        <span class="bubble">
-          <img src="putin-portrait.jpg" alt="Vladimir Putin" class="bubble-portrait">
+        <div class="article-image-wrap">
+          <img src="eric-whyte.jpg" alt="Eric Whyte" />
+          <div class="article-image-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              <line x1="9" y1="11" x2="13" y2="11"/><line x1="11" y1="9" x2="11" y2="13"/>
+            </svg>
+          </div>
+          <p class="article-image-credit">Credit: OCCRP</p>
+        </div>
+    <p>Whyte owns companies registered in secretive offshore financial jurisdictions that hold luxury properties across <span class="key-highlight"><a href="https://www.occrp.org/en/regions/asia/russia/page/1" class="key-highlight-link" target="_blank" rel="noopener">Russia</a><span class="bubble"><img src="russia.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/Asia/russia/page/1" class="bubble-name" target="_blank" rel="noopener">Russia</a><span class="bubble-role">Country</span></span></span></span> and <span class="key-highlight"><a href="https://www.occrp.org/en/regions/europe/page/1" class="key-highlight-link" target="_blank" rel="noopener">Europe</a><span class="bubble"><img src="europe.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/page/1" class="bubble-name" target="_blank" rel="noopener">Europe</a><span class="bubble-role">Continent</span></span></span></span>. Many of these assets have links to <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
-            <a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="bubble-name" target="_blank" rel="noopener">Vladimir Putin</a>
-            <span class="bubble-role">President of Russia</span>
-          </span>
-        </span>
-      </span>,
-      the article reported, before noting that the winery's Petite Arvine white was a "pleasant surprise."</p>
-
-    <div class="fc-box open" id="fc-box-1">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span>, a key Kremlin ally and head of the state-owned bank VTB.</p>
+    <p>A larger corporate network of firms with connections to Eric Whyte’s companies owns more properties, as well as investments and stakes in Russian retailers and restaurant chains — including Burger King and KFC — worth some $130 million.</p>
+    <p>“It looks very compelling that Whyte has been acting as a proxy for Kostin,” said Tamara Makarenko, a veteran of the business intelligence sector with extensive experience investigating oligarchs.</p>
+    
+        <div class="fc-box open" id="fc-box-1">
       <div class="fc-box-header" onclick="toggleFcBox('fc-box-1')">
         <svg class="fc-box-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6 9L12 15L18 9" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="fc-box-title">This is an example of a fact-checking box</span>
+        <span class="fc-box-title">The Pandora Papers</span>
               </div>
       <div class="fc-box-body">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam <b>volutpat vel neque vel iaculis</b>. Quisque maximus, quam vel ullamcorper pretium, felis turpis porta ipsum, <a href="#">id ornare lectus tortor nec felis</a>. Quisque semper nunc eget leo gravida vestibulum. Phasellus ligula dolor, molestie a odio nec, fermentum pellentesque enim. Curabitur sed dolor at diam condimentum placerat. Nullam sagittis est ut rhoncus dictum. Vestibulum accumsan sem elit, vitae viverra nibh congue vel. Vivamus odio purus, convallis ut ullamcorper nec, pretium eget mauris. Pellentesque varius, turpis vel tincidunt ultricies, lacus urna tincidunt sem, at gravida ligula augue eu purus. Nam convallis ut purus vel suscipit.</p>
+        <p>Details of Whyte’s offshore interests come from the Pandora Papers, a vast cache of leaked data from 14 service providers obtained by the International Consortium of Investigative Journalists and shared with hundreds of reporters around the world.</p>
       </div>
     </div>
-
-    <p>While the links to
-      <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a>        <span class="bubble">
+    
+    <p>“The pieces of the puzzle… are reflective of how we know oligarchs have been hiding their wealth,” she said after reviewing OCCRP’s findings.</p>
+    <p><span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
           <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
           <span class="bubble-info">
-            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a>
-            <span class="bubble-role">Russian Banker</span>
-          </span>
-        </span>
-      </span>
-      were never definitively proven, the European Union cited his ownership of the estate and winery when it imposed sanctions on him in 2014, saying he had backed "actions and policies that undermine the territorial integrity of <span class="key-highlight"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="key-highlight-link" target="_blank" rel="noopener">Ukraine</a><span class="bubble"><img src="ukraine.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="bubble-name" target="_blank" rel="noopener">Ukraine</a><span class="bubble-role">Country in Europe</span></span></span></span>" and <a href="#">benefitted from the annexation</a>.</p>
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span> has good reason for wanting to disguise any riches he might have accrued during his 20 years as chairman of VTB: He is sanctioned in the U.S. and EU for his support of the ongoing Russian war in <span class="key-highlight"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="key-highlight-link" target="_blank" rel="noopener">Ukraine</a><span class="bubble"><img src="ukraine.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="bubble-name" target="_blank" rel="noopener">Ukraine</a><span class="bubble-role">Country in Europe</span></span></span></span> and the annexation of Crimea in 2014.</p>
+    <p>Whyte, <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span>, and VTB all declined to comment for this story. But <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span> did give a frank interview to CNBC in 2018 about the impact the sanctions were having on him personally.</p>
+    <p>He had been unable to travel to Bali for an International Monetary Fund meeting, he said, nor could he go skiing in Colorado. “Which is very unfortunate. The best snow [is] in Colorado –– a very good mountain,” he said.</p>
 
-    <p>Both the winery and the villa, it turns out, were kept in Whyte's hands for years. One of Whyte's offshore companies, <span class="tooltip-trigger"><span class="tooltip-text">Vargas Properties Ltd.</span><span class="tooltip-arrow"><img src="arrow-down.png" alt="" /></span></span>
-        <span class="tooltip-box">Source: <a href="https://offshoreleaks.icij.org/nodes/240029544">ICIJ OffShore Database</a>.</span>, controlled the Russian company that <span class="key-doc"><span class="key-doc-text">owns both the house and the winery</span><span class="key-doc-icon"><img src="document.png" alt="" class="doc-icon"></span><span class="bubble bubble--wide"><span class="bubble-info"><span class="bubble-source">Source: Name of Organization that provided this document.</span><span class="bubble-source-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></span></span></span>.</p>
-    <p><b>If you would like to support OCCRP, please <a href="https://occrp.fundjournalism.org/donate?campaign=701PP00000uHPEiYAO&_gl=1*d99bgm*_gcl_au*NjM4ODIyMjE0LjE3Nzc5NzM2OTM.*_ga*MTE4OTY2ODIwOS4xNjUwNTM0NTIy*_ga_NHCZV5EYYY*czE3ODIyOTkyOTEkbzgxJGcxJHQxNzgyMjk5NTAyJGo1NyRsMCRoMA..">make your charitable donation online</a> or contact Dani Piland at <a href="mailto:dani.piland@occrp.org">dani.piland@occrp.org<img src="email.png" alt="" class="email-icon"></a>.</b></p>
-  </article>
+        <h2>Whyte Winery</h2>
+        <p>During the Soviet years, members of the ruling elite often had summer houses in the sunny seaside town of Foros, on the Crimean peninsula.</p>
+
+        <div class="article-image-wrap">
+          <img src="view-of-foros.jpg" alt="A view of Foros" />
+          <div class="article-image-zoom">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              <line x1="9" y1="11" x2="13" y2="11"/><line x1="11" y1="9" x2="11" y2="13"/>
+            </svg>
+          </div>
+          <p class="article-image-credit">Credit: Zoonar GmbH/Alamy Stock Photo</p>
+        </div>
+
+    <p>After the Russian annexation of Crimea in 2014, a new breed of elite Russians rushed in. Multiple media outlets at the time reported rumors that <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span> had snapped up a luxury villa in Foros, along with a winery in the Alma Valley, 70 kilometers to the north.</p>
+    <p>“Winery executives won’t reveal who it belongs to, although <span class="key-doc"><span class="key-doc-text">the Russian media have speculated</span><span class="key-doc-icon"><img src="document.png" alt="" class="doc-icon"></span><span class="bubble bubble--wide"><span class="bubble-info"><span class="bubble-source">Source: Name of Organization that provided this document.</span><span class="bubble-source-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></span></span></span> that it’s the president of one of <span class="key-highlight"><a href="https://www.occrp.org/en/regions/asia/russia/page/1" class="key-highlight-link" target="_blank" rel="noopener">Russia</a><span class="bubble"><img src="russia.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/Asia/russia/page/1" class="bubble-name" target="_blank" rel="noopener">Russia</a><span class="bubble-role">Country</span></span></span></span>’s most powerful banks,” <a href="#">wrote Meinenger’s Wine Business International in 2015</a>.</p>
+    <p>A grape vine at Alma had been personally planted by <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Vladimir Putin</a><span class="bubble">
+          <img src="putin-portrait.jpg" alt="Vladimir Putin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/vladimir-putin/page/1" class="bubble-name" target="_blank" rel="noopener">Vladimir Putin</a><span class="bubble-role">President of Russia</span></span></span></span>, the article reported, before noting that the winery’s Petite Arvine white was a “pleasant surprise.”</p>
+    <p>While the links to <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span> were never definitively proven, the European Union cited his ownership of the estate and winery when it imposed sanctions on him in 2014, saying he had backed “<a href="#">actions and policies that undermine the territorial integrity of Ukraine</a>” and benefitted from the annexation.</p>
+    <p>Both the winery and the villa, it turns out, were kept in Whyte’s hands for years. One of Whyte’s offshore companies, <span class="tooltip-trigger"><span class="tooltip-text">Vargas Properties Ltd.</span><span class="tooltip-arrow"><img src="arrow-down.png" alt="" /></span></span>
+        <span class="tooltip-box">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla aliquam luctus faucibus. Nunc eget orci hendrerit, dapibus arcu id, aliquam ligula. Suspendisse dolor dolor, congue a dignissim ac, convallis vitae mi. Quisque egestas ex purus, ac placerat nunc aliquam quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent vel sapien lectus. Duis ultricies purus eu nisi fermentum, in ultrices tortor dictum. Aenean mi eros, porta eu dui id, venenatis mattis ex. Praesent et lacinia metus, vitae suscipit nunc. <b>Source: <a href="https://offshoreleaks.icij.org/nodes/240029544">ICIJ OffShore Database</a></b>.</span>, controlled the Russian company that owns both the house and the winery.</p>
+    <p>But on March 14 this year, not long after <span class="key-highlight"><a href="https://www.occrp.org/en/regions/asia/russia/page/1" class="key-highlight-link" target="_blank" rel="noopener">Russia</a><span class="bubble"><img src="russia.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/Asia/russia/page/1" class="bubble-name" target="_blank" rel="noopener">Russia</a><span class="bubble-role">Country</span></span></span></span>’s invasion of <span class="key-highlight"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="key-highlight-link" target="_blank" rel="noopener">Ukraine</a><span class="bubble"><img src="ukraine.png" alt="Ukraine" class="bubble-portrait"><span class="bubble-info"><a href="https://www.occrp.org/en/regions/europe/ukraine/page/1" class="bubble-name" target="_blank" rel="noopener">Ukraine</a><span class="bubble-role">Country in Europe</span></span></span></span> sparked another round of sanctions against prominent Russians, including <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span>, ownership of the properties was transferred to a Russian company whose owner remains secret.</p>
+    <p>That’s far from the only example of Whyte’s companies holding assets linked to Kostin. Whyte also owns two British Virgin Islands firms that have been involved in swapping Moscow properties linked to <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span>.</p>
+    <p>In a blockbuster <a href="#">investigation that made headlines around the world</a>, Russian opposition leader <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/alexei-navalny/page/1" class="key-highlight-link" target="_blank" rel="noopener">Alexei Navalny</a><span class="bubble">
+          <img src="navalny-portrait.png" alt="Alexei Navalny" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Alexei Navalny</a><span class="bubble-role">Russian Opposition Leader</span></span></span></span> showed how two luxurious apartments had been transferred to <span class="key-highlight" tabindex="0"><a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="key-highlight-link" target="_blank" rel="noopener">Kostin</a><span class="bubble">
+          <img src="andrei-portrait.png" alt="Andrei Kostin" class="bubble-portrait">
+          <span class="bubble-info">
+            <a href="https://www.occrp.org/en/people/andrei-kostin/page/1" class="bubble-name" target="_blank" rel="noopener">Andrei Kostin</a><span class="bubble-role">Russian Banker</span></span></span></span>’s girlfriend, the glamorous pro-Putin TV host Nailya Asker-Zade. One was gifted to her by a senior VTB executive, while the other came from the bank itself.</p>
+    <p>But there was a middleman in the VTB transfer.</p>
+    <p>The year before Asker-Zade received the apartment in 2014, it was transferred to an offshore company registered in the British Virgin Islands, <span class="tooltip-trigger"><span class="tooltip-text">Erelson Investments Ltd</span><span class="tooltip-arrow"><img src="arrow-down.png" alt="" /></span></span>
+        <span class="tooltip-box">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla aliquam luctus faucibus. Nunc eget orci hendrerit, dapibus arcu id, aliquam ligula. Suspendisse dolor dolor, congue a dignissim ac, convallis vitae mi. Quisque egestas ex purus, ac placerat nunc aliquam quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent vel sapien lectus. Duis ultricies purus eu nisi fermentum, in ultrices tortor dictum. Aenean mi eros, porta eu dui id, venenatis mattis ex. Praesent et lacinia metus, vitae suscipit nunc. <b>Source: <a href="https://offshoreleaks.icij.org/nodes/240031746">ICIJ OffShore Database</a></b>.</span>.</p>
+    <p>Erelson Investments, it turns out, was owned by Eric Whyte.</p>
+    <p><i><b>This is not a complete story. It has been built as a prototype for the purpose of this test.</b></i></p>    
+  
+  </div>
+    </main>
+
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="logo-dark.png" alt="OCCRP — Organized Crime and Corruption Reporting Project" />
+      </div>
+      <div class="footer-brand">
+        <p class="footer-tagline">A nonprofit, mission-driven newsroom that partners with other media outlets to publish stories that spur action.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 OCCRP</span>
+      <span>
+        <a href="#" style="color:#f4f3ec;margin-right:16px">Privacy Policy</a>
+        <a href="#" style="color:#f4f3ec">Terms of Use</a>
+      </span>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+      <img src="" alt="" id="lightboxImg" />
+      <p class="lightbox-credit" id="lightboxCredit"></p>
+    </div>
+  </div>
 
   <script>
+    // Lightbox
+    (function () {
+      const lightbox     = document.getElementById('lightbox');
+      const lightboxImg  = document.getElementById('lightboxImg');
+      const lightboxCredit = document.getElementById('lightboxCredit');
+      const closeBtn     = document.getElementById('lightboxClose');
+      if (!lightbox) return;
+
+      const close = () => lightbox.classList.remove('open');
+
+      document.querySelectorAll('.article-image-wrap').forEach(wrap => {
+        wrap.addEventListener('click', () => {
+          const src    = wrap.querySelector('img').src;
+          const credit = wrap.querySelector('.article-image-credit');
+          lightboxImg.src = src;
+          lightboxImg.alt = wrap.querySelector('img').alt;
+          lightboxCredit.textContent = credit ? credit.textContent : '';
+          lightbox.classList.add('open');
+        });
+      });
+
+      closeBtn.addEventListener('click', close);
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    })();
+
+    // Fact-Checking Box
     const toggle = document.getElementById('fc-toggle');
     const stateText = document.getElementById('toggle-state-text');
 
@@ -518,7 +1281,7 @@
       document.getElementById(id).classList.toggle('open');
     }
 
-        // ── Tooltips (handles any number on the page) ─────────────────
+    // Tooltips (handles any number on the page)
     document.querySelectorAll('.tooltip-trigger').forEach(function (trigger) {
       const box      = trigger.nextElementSibling;
       const arrowImg = trigger.querySelector('.tooltip-arrow img');
