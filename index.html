@@ -629,14 +629,16 @@
       cursor: pointer;
     }
     body.fc-on .tooltip-text {
-      background: #e4e2d8;
-      color: #000;
-      padding: 1px 5px;
       text-decoration: underline dotted #b01d21;
       text-decoration-thickness: 1.5px;
     }
     body.fc-on .tooltip-arrow {
       display: inline-block;
+    }
+    body.fc-on .tooltip-trigger:hover {
+      background: #ECEAE4;
+      border-radius: 4px;
+      color: #000;
     }
     .tooltip-box {
       display: none;
@@ -671,11 +673,7 @@
       transition: background-color 0.2s, color 0.2s;
     }
     body.fc-on .key-highlight {
-      background-color: #e4e2d8;
-      color: #000;
-      padding: 2px 2px;
-      text-decoration: underline dotted #b01d21;
-      text-decoration-thickness: 1.5px;
+      /* background shown on hover only */
     }
     .key-highlight-link,
     .article-body .key-highlight-link,
@@ -689,10 +687,16 @@
     body.fc-on .article-body .key-highlight-link {
       cursor: help;
       pointer-events: auto;
+      text-decoration: underline dotted #b01d21;
+      text-decoration-thickness: 1.5px;
     }
-    body.fc-on .key-highlight-link:hover,
-    body.fc-on .article-body .key-highlight-link:hover {
-      text-decoration: none;
+    body.fc-on .key-highlight:hover {
+      background-color: #ECEAE4;
+      color: #000;
+      border-radius: 4px;
+    }
+    body.fc-on .key-highlight:hover .key-highlight-link,
+    body.fc-on .article-body .key-highlight:hover .key-highlight-link {
       color: inherit;
     }
 
@@ -706,18 +710,21 @@
       display: none;
     }
     body.fc-on .key-doc {
-      cursor: pointer;
+      cursor: help;
     }
     body.fc-on .key-doc-text {
-      background-color: #e4e2d8;
-      color: #000;
-      border-radius: 4px;
-      padding: 1px 2px;
       text-decoration: underline dotted #b01d21;
       text-decoration-thickness: 1.5px;
     }
     body.fc-on .key-doc-icon {
       display: inline;
+    }
+    body.fc-on .key-doc:hover {
+      background-color: #ECEAE4;
+      border-radius: 4px;
+    }
+    body.fc-on .key-doc:hover .key-doc-text {
+      color: #000;
     }
 
     /* Iconography */
